@@ -397,13 +397,22 @@ p { color: var(--ink-muted); line-height: 1.75; }
 .exterior { background: var(--surface-2); }
 .ext-em { font-style: normal; color: var(--accent); }
 
-.paises-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
+.paises-marquee {
+  overflow: hidden;
   margin-bottom: 56px;
+  -webkit-mask: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+.paises-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: marquee-slide 28s linear infinite;
+}
+.paises-track:hover { animation-play-state: paused; }
+@keyframes marquee-slide {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
 .pais {
   display: flex;
@@ -414,19 +423,20 @@ p { color: var(--ink-muted); line-height: 1.75; }
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 12px 16px;
-  min-width: 80px;
+  min-width: 88px;
+  cursor: default;
   transition: border-color 0.2s, transform 0.2s;
+  flex-shrink: 0;
 }
-.pais:hover { border-color: var(--border-red); transform: translateY(-2px); }
-.pais span { font-size: 28px; line-height: 1; }
-.pais small { font-size: 11px; color: var(--ink-faint); font-weight: 500; text-align: center; }
+.pais:hover { border-color: var(--border-red); transform: translateY(-3px); }
+.pais span { font-size: 30px; line-height: 1; }
+.pais small { font-size: 11px; color: var(--ink-faint); font-weight: 500; text-align: center; white-space: nowrap; }
 .pais.ext-dest {
   border-color: var(--accent);
   background: var(--accent-light);
   box-shadow: var(--shadow-red);
 }
 .pais.ext-dest small { color: var(--accent); }
-.pais-seta { color: var(--accent); font-size: 18px; font-weight: 700; }
 
 .poder-wrap {
   background: var(--surface-3);
@@ -547,10 +557,8 @@ p { color: var(--ink-muted); line-height: 1.75; }
   .ext-cards { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
-  .paises-wrap { gap: 6px; }
-  .pais { min-width: 64px; padding: 10px 12px; }
-  .pais span { font-size: 22px; }
-  .pais-seta { display: none; }
+  .pais { min-width: 72px; padding: 10px 12px; }
+  .pais span { font-size: 24px; }
   .poder-wrap { padding: 20px; }
   .poder-header { flex-direction: column; }
   .poder-cambio { align-self: stretch; text-align: center; white-space: normal; }
