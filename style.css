@@ -748,6 +748,29 @@ p { color: var(--ink-muted); line-height: 1.75; }
 }
 .form-group input::placeholder,
 .form-group textarea::placeholder { color: var(--ink-faint); }
+.phone-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+.phone-prefix {
+  background: var(--surface-3);
+  border: 1.5px solid var(--border);
+  border-right: none;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  padding: 11px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  min-width: 48px;
+  text-align: center;
+  line-height: 1.4;
+}
+.phone-wrap input {
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0 !important;
+  flex: 1;
+}
 .form-success {
   text-align: center;
   padding: 48px 24px;

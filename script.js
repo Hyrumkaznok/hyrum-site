@@ -32,7 +32,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 function handleSubmit(e) {
   e.preventDefault();
   const nome = document.getElementById('nome').value.trim();
-  const telefone = document.getElementById('telefone').value.trim();
+  const paisSelect = document.getElementById('pais');
+  const countryCode = (COUNTRIES[paisSelect?.value] || COUNTRIES.BR).code;
+  const telefoneRaw = document.getElementById('telefone').value.replace(/\D/g, '');
+  const telefone = '+' + countryCode + ' ' + document.getElementById('telefone').value.trim();
   const interesse = document.getElementById('interesse').value;
   const mensagem = document.getElementById('mensagem').value.trim();
 
@@ -51,10 +54,63 @@ function handleSubmit(e) {
 
   // Abre WhatsApp após 400ms
   setTimeout(() => {
+    const fullNumber = countryCode + telefoneRaw;
     const url = `https://wa.me/5541999457725?text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank');
   }, 400);
 }
+
+// Configuração de países — código, máscara e placeholder
+const COUNTRIES = {
+  BR: { code: '55',  mask: '(##) #####-####',  placeholder: '(41) 99999-9999' },
+  US: { code: '1',   mask: '(###) ###-####',   placeholder: '(555) 123-4567' },
+  CA: { code: '1',   mask: '(###) ###-####',   placeholder: '(416) 123-4567' },
+  PT: { code: '351', mask: '### ### ###',      placeholder: '912 345 678' },
+  DE: { code: '49',  mask: '#### #######',     placeholder: '1512 3456789' },
+  GB: { code: '44',  mask: '#### ######',      placeholder: '7911 123456' },
+  IT: { code: '39',  mask: '### #######',      placeholder: '312 3456789' },
+  FR: { code: '33',  mask: '# ## ## ## ##',    placeholder: '6 12 34 56 78' },
+  AU: { code: '61',  mask: '### ### ###',      placeholder: '412 345 678' },
+  JP: { code: '81',  mask: '##-####-####',     placeholder: '90-1234-5678' },
+  ES: { code: '34',  mask: '### ### ###',      placeholder: '612 345 678' },
+};
+
+function applyMask(digits, mask) {
+  let result = '';
+  let di = 0;
+  for (let mi = 0; mi < mask.length && di < digits.length; mi++) {
+    if (mask[mi] === '#') result += digits[di++];
+    else result += mask[mi];
+  }
+  return result;
+}
+
+function setupPhoneField() {
+  const paisSelect = document.getElementById('pais');
+  const phoneInput = document.getElementById('telefone');
+  const prefixEl   = document.getElementById('phone-prefix');
+  if (!paisSelect || !phoneInput) return;
+
+  function update() {
+    const country = COUNTRIES[paisSelect.value] || COUNTRIES.BR;
+    prefixEl.textContent = '+' + country.code;
+    phoneInput.placeholder = country.placeholder;
+    phoneInput.value = '';
+  }
+
+  paisSelect.addEventListener('change', update);
+
+  phoneInput.addEventListener('input', function () {
+    const country = COUNTRIES[paisSelect.value] || COUNTRIES.BR;
+    const digits = this.value.replace(/\D/g, '');
+    const formatted = applyMask(digits, country.mask);
+    this.value = formatted;
+  });
+
+  update();
+}
+
+setupPhoneField();
 
 // Cotação de câmbio — cache semanal no localStorage
 async function updateCambio() {
