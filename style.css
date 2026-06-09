@@ -287,17 +287,15 @@ p { color: var(--ink-muted); line-height: 1.75; }
 }
 .sobre-visual { display: flex; justify-content: center; }
 .sobre-photo-wrap { position: relative; }
-.sobre-photo-placeholder {
+.sobre-photo {
   width: 280px;
   height: 340px;
-  background: var(--surface-3);
+  object-fit: cover;
+  object-position: center top;
   border-radius: var(--radius-lg);
-  border: 2px dashed var(--border-red);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--ink-faint);
-  font-size: 14px;
+  border: 2px solid var(--border-red);
+  box-shadow: var(--shadow-red);
+  display: block;
 }
 .sobre-badge {
   position: absolute;
