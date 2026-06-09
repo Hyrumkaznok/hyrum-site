@@ -279,18 +279,14 @@ function launchConfetti() {
   const cx = canvas.width  / 2;
   const cy = canvas.height / 2;
 
-  const particles = Array.from({ length: 90 }, (_, i) => {
-    const isFlag   = i % 6 === 0;
-    const speed    = Math.random() * 18 + 8;
-    const angle    = Math.random() * Math.PI * 2;
+  const particles = Array.from({ length: 60 }, () => {
+    const speed = Math.random() * 18 + 8;
+    const angle = Math.random() * Math.PI * 2;
     return {
-      x:  cx, y: cy,
+      x: cx, y: cy,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed - Math.random() * 6,
-      radius: isFlag ? 0 : Math.random() * 7 + 3,
-      color:  COLORS[Math.floor(Math.random() * COLORS.length)],
-      isFlag,
-      fontSize: Math.random() * 18 + 14,
+      fontSize: Math.random() * 22 + 14,
       rotation: Math.random() * Math.PI * 2,
       spin:     (Math.random() - 0.5) * 0.18,
     };
@@ -317,17 +313,10 @@ function launchConfetti() {
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rotation);
 
-      if (p.isFlag) {
-        ctx.font = `${p.fontSize}px serif`;
-        ctx.textAlign    = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('🇧🇷', 0, 0);
-      } else {
-        ctx.beginPath();
-        ctx.arc(0, 0, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-      }
+      ctx.font = `${p.fontSize}px serif`;
+      ctx.textAlign    = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🇧🇷', 0, 0);
       ctx.restore();
     });
 
