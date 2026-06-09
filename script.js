@@ -51,7 +51,7 @@ function handleSubmit(e) {
 
   // Abre WhatsApp após 400ms
   setTimeout(() => {
-    const url = `https://wa.me/55SEUNUMERO?text=${encodeURIComponent(texto)}`;
+    const url = `https://wa.me/5541999457725?text=${encodeURIComponent(texto)}`;
     window.open(url, '_blank');
   }, 400);
 }
