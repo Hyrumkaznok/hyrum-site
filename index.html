@@ -18,9 +18,10 @@
       <span class="nav-logo">Hyrum Kaznok <span class="nav-logo-dot">·</span> <span class="nav-logo-sub">Consultor Servopa · Time Lion</span></span>
       <ul class="nav-links">
         <li><a href="#sobre">Sobre</a></li>
-        <li><a href="#consorcio">Consórcio</a></li>
+        <li><a href="#simulador">Simulador</a></li>
         <li><a href="#comparativo">Comparativo</a></li>
         <li><a href="#exterior">Morador no exterior</a></li>
+        <li><a href="#faq">FAQ</a></li>
         <li><a href="#contato" class="nav-cta">Falar comigo</a></li>
       </ul>
       <button class="nav-hamburger" id="hamburger" aria-label="Menu">
@@ -29,9 +30,10 @@
     </div>
     <div class="nav-mobile" id="nav-mobile">
       <a href="#sobre">Sobre</a>
-      <a href="#consorcio">Consórcio</a>
+      <a href="#simulador">Simulador</a>
       <a href="#comparativo">Comparativo</a>
       <a href="#exterior">Morador no exterior</a>
+      <a href="#faq">FAQ</a>
       <a href="#contato">Falar comigo</a>
     </div>
   </nav>
@@ -54,22 +56,22 @@
         Com alguém que explica tudo de forma clara antes de você assinar qualquer coisa.
       </p>
       <div class="hero-actions">
-        <a href="#contato" class="btn btn-primary">Quero simular agora</a>
+        <a href="#simulador" class="btn btn-primary">Simular agora</a>
         <a href="#consorcio" class="btn btn-ghost">Entender como funciona</a>
       </div>
       <div class="hero-stats">
         <div class="stat">
-          <span class="stat-num">R$ 0</span>
+          <span class="stat-num" data-counter data-target="0" data-prefix="R$ ">R$ 0</span>
           <span class="stat-lbl">de entrada</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <span class="stat-num">0%</span>
+          <span class="stat-num" data-counter data-target="0" data-suffix="%">0%</span>
           <span class="stat-lbl">de juros</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <span class="stat-num">100%</span>
+          <span class="stat-num" data-counter data-target="100" data-suffix="%">100%</span>
           <span class="stat-lbl">regulado pelo Banco Central</span>
         </div>
       </div>
@@ -142,13 +144,163 @@
           <div class="tipo-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
           <h3>Consórcio de imóveis</h3>
           <p>Apartamento, casa, terreno ou imóvel comercial. Cartas de crédito a partir de R$ 100 mil.</p>
-          <a href="#contato" class="tipo-link">Simular imóvel →</a>
+          <a href="#simulador" class="tipo-link">Simular imóvel →</a>
         </div>
         <div class="tipo-card tipo-veiculo">
           <div class="tipo-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V9l3-6h16l3 6v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17" r="2.5"/><circle cx="16.5" cy="17" r="2.5"/></svg></div>
           <h3>Consórcio de veículos</h3>
           <p>Carro novo, seminovo, moto ou caminhão. Cartas de crédito a partir de R$ 30 mil.</p>
-          <a href="#contato" class="tipo-link">Simular veículo →</a>
+          <a href="#simulador" class="tipo-link">Simular veículo →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIMULADOR -->
+  <section class="section simulador" id="simulador">
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">Calcule na hora</div>
+        <h2>Quanto ficaria sua parcela?</h2>
+        <p class="section-sub">Arraste o slider e veja o valor estimado em tempo real.</p>
+      </div>
+
+      <div class="sim-card">
+        <div class="sim-top">
+          <div class="sim-label-row">
+            <span class="sim-label">Valor do crédito</span>
+            <span class="sim-valor-display" id="sim-valor-display">R$ 200.000</span>
+          </div>
+          <input type="range" class="sim-slider" id="sim-slider"
+            min="50000" max="600000" step="10000" value="200000" />
+          <div class="sim-range-labels">
+            <span>R$ 50 mil</span>
+            <span>R$ 600 mil</span>
+          </div>
+        </div>
+
+        <div class="sim-results">
+          <div class="sim-result-card sim-reduzida">
+            <div class="sim-result-label">Parcela reduzida</div>
+            <div class="sim-result-sub">Até a contemplação</div>
+            <div class="sim-result-value" id="sim-parcela-red">R$ 523,00<span>/mês</span></div>
+            <div class="sim-result-moeda">
+              <span id="sim-red-usd">—</span> · <span id="sim-red-eur">—</span>
+            </div>
+          </div>
+          <div class="sim-result-card sim-integral">
+            <div class="sim-result-label">Parcela integral</div>
+            <div class="sim-result-sub">Valor cheio</div>
+            <div class="sim-result-value" id="sim-parcela-int">R$ 1.045,80<span>/mês</span></div>
+          </div>
+        </div>
+
+        <p class="sim-nota">* Valores estimados com base nas condições atuais da Servopa. Sujeito a ajuste conforme o grupo. <a href="#contato">Peça uma simulação exata →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARATIVO -->
+  <section class="section comparativo" id="comparativo">
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">Por que consórcio</div>
+        <h2>Consórcio ou financiamento?</h2>
+        <p class="section-sub">Veja a diferença real no seu bolso.</p>
+      </div>
+
+      <div class="comp-table-wrap">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="col-fin">Financiamento</th>
+              <th class="col-con">Consórcio <span class="rec-badge">Recomendado</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Entrada obrigatória</td>
+              <td class="col-fin neg">Sim, geralmente 20%+</td>
+              <td class="col-con pos">Não precisa</td>
+            </tr>
+            <tr>
+              <td>Juros</td>
+              <td class="col-fin neg">8% a 30% ao ano</td>
+              <td class="col-con pos">Zero juros</td>
+            </tr>
+            <tr>
+              <td>Custo extra</td>
+              <td class="col-fin neg">Pode dobrar o valor do bem</td>
+              <td class="col-con pos">Taxa adm de 15–25% total</td>
+            </tr>
+            <tr>
+              <td>Aprovação de crédito</td>
+              <td class="col-fin neg">Análise restritiva</td>
+              <td class="col-con pos">Mais flexível</td>
+            </tr>
+            <tr>
+              <td>Poder de compra</td>
+              <td class="col-fin neg">Financiado</td>
+              <td class="col-con pos">À vista — negocia desconto</td>
+            </tr>
+            <tr>
+              <td>Regulação</td>
+              <td class="col-fin">Banco Central</td>
+              <td class="col-con pos">Banco Central</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="comp-nota">
+        * Comparativo baseado em condições médias de mercado. Cada caso tem suas particularidades — me chama para uma simulação personalizada.
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPOIMENTOS -->
+  <section class="section depoimentos" id="depoimentos">
+    <div class="container">
+      <div class="section-header">
+        <div class="eyebrow">Quem já realizou</div>
+        <h2>Histórias reais de clientes</h2>
+        <p class="section-sub">Pessoas que decidiram parar de pagar juros e hoje têm o que conquistaram.</p>
+      </div>
+
+      <div class="dep-grid">
+        <div class="dep-card">
+          <div class="dep-stars">★★★★★</div>
+          <p class="dep-texto">"Estava com medo de fazer consórcio, mas o Hyrum explicou tudo com calma e transparência. Hoje tenho meu apartamento próprio — e ainda sobrou dinheiro porque comprei à vista e negociei desconto."</p>
+          <div class="dep-autor">
+            <div class="dep-avatar">MO</div>
+            <div>
+              <strong>Marcos Oliveira</strong>
+              <span>Curitiba, PR · Imóvel R$ 280 mil</span>
+            </div>
+          </div>
+        </div>
+        <div class="dep-card">
+          <div class="dep-stars">★★★★★</div>
+          <p class="dep-texto">"Entrei no consórcio pensando que ia demorar anos. Dei um lance e fui contemplada em 8 meses. Negociei R$ 9.000 de desconto na concessionária por pagar à vista. Melhor decisão que tomei."</p>
+          <div class="dep-autor">
+            <div class="dep-avatar">JC</div>
+            <div>
+              <strong>Juliana Costa</strong>
+              <span>São Paulo, SP · Veículo R$ 85 mil</span>
+            </div>
+          </div>
+        </div>
+        <div class="dep-card dep-card-destaque">
+          <div class="dep-stars">★★★★★</div>
+          <p class="dep-texto">"Moro nos EUA há 7 anos e queria um imóvel no Brasil para quando voltar. O Hyrum me atendeu pelo WhatsApp sem nenhuma dificuldade. Em dólares, a parcela é irrisória. Melhor investimento da minha vida."</p>
+          <div class="dep-autor">
+            <div class="dep-avatar">RM</div>
+            <div>
+              <strong>Rafael Mendes</strong>
+              <span>Boston, EUA · Imóvel R$ 350 mil</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -176,7 +328,6 @@
           <div class="pais"><span>🇯🇵</span><small>Japão</small></div>
           <div class="pais"><span>🇪🇸</span><small>Espanha</small></div>
           <div class="pais ext-dest"><span>🇧🇷</span><small>Brasil</small></div>
-          <!-- duplicado para loop contínuo -->
           <div class="pais"><span>🇺🇸</span><small>Estados Unidos</small></div>
           <div class="pais"><span>🇵🇹</span><small>Portugal</small></div>
           <div class="pais"><span>🇩🇪</span><small>Alemanha</small></div>
@@ -283,61 +434,79 @@
     </div>
   </section>
 
-  <!-- COMPARATIVO -->
-  <section class="section comparativo" id="comparativo">
+  <!-- FAQ -->
+  <section class="section faq" id="faq">
     <div class="container">
       <div class="section-header">
-        <div class="eyebrow">Por que consórcio</div>
-        <h2>Consórcio ou financiamento?</h2>
-        <p class="section-sub">Veja a diferença real no seu bolso.</p>
+        <div class="eyebrow">Dúvidas frequentes</div>
+        <h2>Perguntas que todo mundo faz</h2>
+        <p class="section-sub">Respondidas de forma direta, sem enrolação.</p>
       </div>
 
-      <div class="comp-table-wrap">
-        <table class="comp-table">
-          <thead>
-            <tr>
-              <th></th>
-              <th class="col-fin">Financiamento</th>
-              <th class="col-con">Consórcio <span class="rec-badge">Recomendado</span></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Entrada obrigatória</td>
-              <td class="col-fin neg">Sim, geralmente 20%+</td>
-              <td class="col-con pos">Não precisa</td>
-            </tr>
-            <tr>
-              <td>Juros</td>
-              <td class="col-fin neg">8% a 30% ao ano</td>
-              <td class="col-con pos">Zero juros</td>
-            </tr>
-            <tr>
-              <td>Custo extra</td>
-              <td class="col-fin neg">Pode dobrar o valor do bem</td>
-              <td class="col-con pos">Taxa adm de 15–25% total</td>
-            </tr>
-            <tr>
-              <td>Aprovação de crédito</td>
-              <td class="col-fin neg">Análise restritiva</td>
-              <td class="col-con pos">Mais flexível</td>
-            </tr>
-            <tr>
-              <td>Poder de compra</td>
-              <td class="col-fin neg">Financiado</td>
-              <td class="col-con pos">À vista — negocia desconto</td>
-            </tr>
-            <tr>
-              <td>Regulação</td>
-              <td class="col-fin">Banco Central</td>
-              <td class="col-con pos">Banco Central</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="comp-nota">
-        * Comparativo baseado em condições médias de mercado. Cada caso tem suas particularidades — me chama para uma simulação personalizada.
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Preciso ter score de crédito alto para entrar no consórcio?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Não da mesma forma que num financiamento. No consórcio a análise é mais flexível — você não está pedindo crédito bancário, está participando de um grupo de compra coletiva. Na contemplação, sim, há uma análise de cadastro, mas muito menos restritiva que a dos bancos.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Como posso ser contemplado mais rápido?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Dando um lance — você oferta um percentual do crédito antecipadamente e quem der o maior lance é contemplado. Quanto maior o lance, maior a chance. Muitos clientes são contemplados nos primeiros meses usando essa estratégia.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Posso usar a carta para comprar qualquer imóvel ou veículo?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Sim, com bastante liberdade. Para imóveis: apartamentos, casas, terrenos, imóveis comerciais e até reforma. Para veículos: carros novos, seminovos, motos e caminhões. A carta é como dinheiro vivo — você compra de quem quiser.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            E se eu demorar para ser contemplado?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Todos os participantes são contemplados até o final do grupo — isso é garantido. Quem não foi por sorteio, vai por lance, e quem não foi por lance, será nos últimos sorteios. É a natureza do consórcio: 100% dos participantes recebem a carta.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Posso cancelar o consórcio se precisar?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Pode, mas há uma multa contratual e o valor pago é devolvido apenas na contemplação por sorteio do grupo. Por isso sempre oriento meus clientes a entrar com um planejamento sólido — consórcio é um compromisso de médio prazo e funciona melhor para quem planeja.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            Moro fora do Brasil. Consigo fazer o consórcio?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Sim! Atendo brasileiros em todo o mundo. Todo o processo pode ser feito à distância — pelo WhatsApp, e-mail e assinatura digital. Você paga em reais (via transferência ou boleto) e constrói patrimônio no Brasil de onde estiver.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            O consórcio é seguro? Tem regulação?
+            <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="faq-a">
+            <p>Sim. O consórcio no Brasil é regulado e fiscalizado pelo Banco Central do Brasil, assim como os bancos. A Servopa é uma administradora autorizada e opera há décadas no mercado. Seu dinheiro fica em fundo separado, protegido.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -405,6 +574,20 @@
               <textarea id="mensagem" name="mensagem" rows="3" placeholder="Me conta um pouco mais sobre o que você busca..."></textarea>
             </div>
             <button type="submit" class="btn btn-primary btn-full">Quero uma simulação gratuita</button>
+            <div class="trust-badges">
+              <span class="trust-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Regulado pelo Banco Central
+              </span>
+              <span class="trust-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.29 6.29l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                Atendimento nacional e internacional
+              </span>
+              <span class="trust-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Sem compromisso
+              </span>
+            </div>
           </form>
           <div class="form-success" id="form-success" style="display:none">
             <div class="success-icon">✓</div>
@@ -423,6 +606,13 @@
       <p class="footer-reg">Servopa Consórcios — CNPJ: <strong>ADICIONE AQUI</strong> — Regulado pelo Banco Central do Brasil</p>
     </div>
   </footer>
+
+  <!-- WHATSAPP FLUTUANTE -->
+  <a href="https://wa.me/5541999457725" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+    <span class="whatsapp-float-pulse"></span>
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="whatsapp-float-tooltip">Falar no WhatsApp</span>
+  </a>
 
   <script src="script.js"></script>
 </body>
