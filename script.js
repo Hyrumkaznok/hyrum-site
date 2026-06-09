@@ -266,6 +266,80 @@ const counterObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('[data-counter]').forEach(el => counterObserver.observe(el));
 
+// ── EXPLOSÃO DE BOAS-VINDAS ──
+function launchConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;pointer-events:none';
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  document.body.appendChild(canvas);
+
+  const ctx = canvas.getContext('2d');
+  const COLORS = ['#009C3B','#FFDF00','#002776','#FFFFFF','#009C3B','#FFDF00','#CBAB00'];
+  const cx = canvas.width  / 2;
+  const cy = canvas.height / 2;
+
+  const particles = Array.from({ length: 90 }, (_, i) => {
+    const isFlag   = i % 6 === 0;
+    const speed    = Math.random() * 18 + 8;
+    const angle    = Math.random() * Math.PI * 2;
+    return {
+      x:  cx, y: cy,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - Math.random() * 6,
+      radius: isFlag ? 0 : Math.random() * 7 + 3,
+      color:  COLORS[Math.floor(Math.random() * COLORS.length)],
+      isFlag,
+      fontSize: Math.random() * 18 + 14,
+      rotation: Math.random() * Math.PI * 2,
+      spin:     (Math.random() - 0.5) * 0.18,
+    };
+  });
+
+  const DURATION = 3200;
+  let start = null;
+
+  function draw(ts) {
+    if (!start) start = ts;
+    const t = Math.min((ts - start) / DURATION, 1);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vy += 0.45;
+      p.vx *= 0.985;
+      p.rotation += p.spin;
+
+      const alpha = Math.max(0, 1 - t * 1.6);
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+
+      if (p.isFlag) {
+        ctx.font = `${p.fontSize}px serif`;
+        ctx.textAlign    = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🇧🇷', 0, 0);
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      }
+      ctx.restore();
+    });
+
+    if (t < 1) requestAnimationFrame(draw);
+    else canvas.remove();
+  }
+
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('load', () => setTimeout(launchConfetti, 400));
+
 // ── FAQ ACCORDION ──
 document.querySelectorAll('.faq-q').forEach(btn => {
   btn.addEventListener('click', () => {
