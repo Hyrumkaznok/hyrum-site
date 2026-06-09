@@ -56,6 +56,62 @@ function handleSubmit(e) {
   }, 400);
 }
 
+// Cotação de câmbio — cache semanal no localStorage
+async function updateCambio() {
+  const CACHE_KEY = 'hk_cambio';
+  const CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+  const FALLBACK = { USD: 1 / 5.70, EUR: 1 / 6.20 };
+
+  let rates = null;
+  let fetchedAt = null;
+
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (Date.now() - parsed.ts < CACHE_TTL) {
+        rates = parsed.rates;
+        fetchedAt = new Date(parsed.ts);
+      }
+    }
+  } catch (_) {}
+
+  if (!rates) {
+    try {
+      const res = await fetch('https://api.frankfurter.app/latest?from=BRL&to=USD,EUR');
+      const json = await res.json();
+      rates = json.rates;
+      fetchedAt = new Date();
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ rates, ts: fetchedAt.getTime() }));
+    } catch (_) {
+      rates = FALLBACK;
+    }
+  }
+
+  // Atualiza células da tabela
+  document.querySelectorAll('[data-brl]').forEach(row => {
+    const brl = parseFloat(row.dataset.brl);
+    const usdCell = row.querySelector('[data-currency="usd"]');
+    const eurCell = row.querySelector('[data-currency="eur"]');
+    if (usdCell) usdCell.textContent = `US$ ${Math.round(brl * rates.USD)}/mês`;
+    if (eurCell) eurCell.textContent = `€ ${Math.round(brl * rates.EUR)}/mês`;
+  });
+
+  // Atualiza badge de câmbio
+  const infoEl = document.getElementById('cambio-info');
+  const dataEl = document.getElementById('cambio-data');
+  if (infoEl) {
+    const usdBRL = (1 / rates.USD).toFixed(2).replace('.', ',');
+    const eurBRL = (1 / rates.EUR).toFixed(2).replace('.', ',');
+    infoEl.textContent = `US$ 1 = R$ ${usdBRL} · € 1 = R$ ${eurBRL}`;
+  }
+  if (dataEl && fetchedAt) {
+    dataEl.textContent = `Atualizado em ${fetchedAt.toLocaleDateString('pt-BR')}`;
+  }
+}
+
+updateCambio();
+
 // Scroll reveal simples
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
