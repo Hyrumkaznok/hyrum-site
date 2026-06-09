@@ -382,7 +382,21 @@ p { color: var(--ink-muted); line-height: 1.75; }
 .tipo-card:hover { border-color: var(--border-red); box-shadow: var(--shadow-red); }
 .tipo-imovel { background: var(--accent-light); }
 .tipo-veiculo { background: rgba(29,185,122,0.07); }
-.tipo-icon { font-size: 36px; }
+.tipo-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--accent-light);
+  border: 1px solid var(--border-red);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.tipo-icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--accent);
+}
 .tipo-card h3 { color: var(--ink); }
 .tipo-card p { color: var(--ink-muted); }
 .tipo-link {
@@ -459,7 +473,22 @@ p { color: var(--ink-muted); line-height: 1.75; }
   align-items: flex-start;
   gap: 14px;
 }
-.poder-icon { font-size: 32px; line-height: 1; margin-top: 2px; }
+.poder-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-light);
+  border: 1px solid var(--border-red);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.poder-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--accent);
+}
 .poder-title h3 { margin-bottom: 4px; font-size: 20px; }
 .poder-title p { font-size: 14px; color: var(--ink-muted); margin: 0; }
 .poder-cambio {
@@ -536,7 +565,23 @@ p { color: var(--ink-muted); line-height: 1.75; }
   transform: translateY(-3px);
   box-shadow: var(--shadow-red);
 }
-.ext-card-icon { font-size: 32px; margin-bottom: 14px; }
+.ext-card-icon {
+  width: 52px;
+  height: 52px;
+  background: var(--accent-light);
+  border: 1px solid var(--border-red);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex-shrink: 0;
+}
+.ext-card-icon svg {
+  width: 26px;
+  height: 26px;
+  stroke: var(--accent);
+}
 .ext-card h3 { font-size: 16px; margin-bottom: 10px; color: var(--ink); }
 .ext-card p { font-size: 14px; color: var(--ink-muted); line-height: 1.65; }
 
