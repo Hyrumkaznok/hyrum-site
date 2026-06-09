@@ -808,6 +808,35 @@ p { color: var(--ink-muted); line-height: 1.75; }
 
 /* ── SIMULADOR ── */
 .simulador { background: var(--surface-2); }
+.sim-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 32px;
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+.sim-tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: calc(var(--radius-md) - 2px);
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.sim-tab svg { stroke: currentColor; }
+.sim-tab.active { background: var(--accent); color: #fff; box-shadow: var(--shadow-red); }
+.sim-tab:not(.active):hover { color: var(--ink); background: var(--surface-3); }
+.sim-result-grupo { margin-top: 8px; font-size: 11px; color: var(--ink-faint); font-weight: 500; }
 .sim-card {
   background: var(--surface-3);
   border: 1px solid var(--border-red);

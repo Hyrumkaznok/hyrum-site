@@ -139,6 +139,61 @@ async function updateCambio() {
 updateCambio();
 
 // ── SIMULADOR ──
+const SIM_DATA = {
+  imovel: [
+    { credit: 80000,   integral: 418.32,  reduzida: 209.20,  grupo: 1573 },
+    { credit: 100000,  integral: 522.90,  reduzida: 261.50,  grupo: 1573 },
+    { credit: 150000,  integral: 784.35,  reduzida: 392.25,  grupo: 1574 },
+    { credit: 200000,  integral: 1045.80, reduzida: 523.00,  grupo: 1575 },
+    { credit: 250000,  integral: 1329.50, reduzida: 664.75,  grupo: 1570 },
+    { credit: 300000,  integral: 1595.40, reduzida: 797.70,  grupo: 1570 },
+    { credit: 400000,  integral: 2100.40, reduzida: 1050.40, grupo: 1572 },
+    { credit: 450000,  integral: 2362.95, reduzida: 1181.47, grupo: 1572 },
+    { credit: 500000,  integral: 2625.50, reduzida: 1313.00, grupo: 1572 },
+    { credit: 885696,  integral: 5145.89, reduzida: 2572.94, grupo: 1558 },
+    { credit: 1018550, integral: 5917.77, reduzida: 2958.88, grupo: 1558 },
+  ],
+  auto: [
+    { credit: 50000,  integral: 750.00,  reduzida: 375.00,  grupo: 3417 },
+    { credit: 60000,  integral: 888.60,  reduzida: 444.30,  grupo: 3418 },
+    { credit: 100000, integral: 991.50,  reduzida: 495.80,  grupo: 3713 },
+    { credit: 130000, integral: 1288.95, reduzida: 644.47,  grupo: 3713 },
+    { credit: 150000, integral: 1512.90, reduzida: 756.45,  grupo: 3712 },
+    { credit: 180000, integral: 1815.48, reduzida: 907.74,  grupo: 3712 },
+    { credit: 196820, integral: 2493.11, reduzida: 1246.55, grupo: 3706 },
+    { credit: 265808, integral: 3239.66, reduzida: 1619.83, grupo: 3804 },
+    { credit: 340233, integral: 4146.75, reduzida: 2073.37, grupo: 3804 },
+    { credit: 444734, integral: 5895.39, reduzida: 2947.69, grupo: 3802 },
+    { credit: 489208, integral: 6484.94, reduzida: 3242.47, grupo: 3802 },
+    { credit: 555918, integral: 7369.24, reduzida: 3684.62, grupo: 3802 },
+  ]
+};
+
+let simType = 'imovel';
+
+function simInterpolate(value, data) {
+  if (value <= data[0].credit) return { ...data[0] };
+  if (value >= data[data.length - 1].credit) {
+    const n = data.length;
+    const r = (value - data[n-2].credit) / (data[n-1].credit - data[n-2].credit);
+    return {
+      integral: data[n-2].integral + r * (data[n-1].integral - data[n-2].integral),
+      reduzida: data[n-2].reduzida + r * (data[n-1].reduzida - data[n-2].reduzida),
+      grupo: null,
+    };
+  }
+  for (let i = 0; i < data.length - 1; i++) {
+    if (value >= data[i].credit && value <= data[i+1].credit) {
+      const r = (value - data[i].credit) / (data[i+1].credit - data[i].credit);
+      return {
+        integral: data[i].integral + r * (data[i+1].integral - data[i].integral),
+        reduzida: data[i].reduzida + r * (data[i+1].reduzida - data[i].reduzida),
+        grupo: r < 0.5 ? data[i].grupo : data[i+1].grupo,
+      };
+    }
+  }
+}
+
 function formatBRL(value) {
   return value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -147,28 +202,33 @@ function updateSimulator() {
   const slider = document.getElementById('sim-slider');
   if (!slider) return;
   const value = parseInt(slider.value);
+  const data  = SIM_DATA[simType];
+  const result = simInterpolate(value, data);
 
-  const parcRed  = value * 0.002615;
-  const parcInt  = value * 0.005229;
+  document.getElementById('sim-valor-display').textContent = 'R$ ' + value.toLocaleString('pt-BR');
+  document.getElementById('sim-parcela-red').innerHTML = `R$ ${formatBRL(result.reduzida)}<span>/mês</span>`;
+  document.getElementById('sim-parcela-int').innerHTML = `R$ ${formatBRL(result.integral)}<span>/mês</span>`;
 
-  document.getElementById('sim-valor-display').textContent =
-    'R$ ' + value.toLocaleString('pt-BR');
-  document.getElementById('sim-parcela-red').innerHTML =
-    `R$ ${formatBRL(parcRed)}<span>/mês</span>`;
-  document.getElementById('sim-parcela-int').innerHTML =
-    `R$ ${formatBRL(parcInt)}<span>/mês</span>`;
+  const grupoEl = document.getElementById('sim-grupo');
+  if (grupoEl) grupoEl.textContent = result.grupo ? `Grupo ${result.grupo}` : '* estimativa extrapolada';
 
   if (globalRates) {
-    const usd = Math.round(parcRed * globalRates.USD);
-    const eur = Math.round(parcRed * globalRates.EUR);
-    document.getElementById('sim-red-usd').textContent = `US$ ${usd}/mês`;
-    document.getElementById('sim-red-eur').textContent = `€ ${eur}/mês`;
+    document.getElementById('sim-red-usd').textContent = `US$ ${Math.round(result.reduzida * globalRates.USD)}/mês`;
+    document.getElementById('sim-red-eur').textContent = `€ ${Math.round(result.reduzida * globalRates.EUR)}/mês`;
   }
 
-  // Atualiza gradiente do slider
-  const pct = ((value - 50000) / (600000 - 50000)) * 100;
+  const pct = ((value - 80000) / (1000000 - 80000)) * 100;
   slider.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--surface-2) ${pct}%)`;
 }
+
+document.querySelectorAll('.sim-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.sim-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    simType = tab.dataset.type;
+    updateSimulator();
+  });
+});
 
 const simSlider = document.getElementById('sim-slider');
 if (simSlider) {

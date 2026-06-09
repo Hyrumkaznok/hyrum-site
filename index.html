@@ -166,16 +166,26 @@
       </div>
 
       <div class="sim-card">
+        <div class="sim-tabs">
+          <button class="sim-tab active" data-type="imovel">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Imóvel
+          </button>
+          <button class="sim-tab" data-type="auto">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 0 1-2-2V9l3-6h16l3 6v6a2 2 0 0 1-2 2h-2"/><circle cx="7.5" cy="17" r="2.5"/><circle cx="16.5" cy="17" r="2.5"/></svg>
+            Automóvel
+          </button>
+        </div>
         <div class="sim-top">
           <div class="sim-label-row">
             <span class="sim-label">Valor do crédito</span>
             <span class="sim-valor-display" id="sim-valor-display">R$ 200.000</span>
           </div>
           <input type="range" class="sim-slider" id="sim-slider"
-            min="50000" max="600000" step="10000" value="200000" />
+            min="80000" max="1000000" step="5000" value="200000" />
           <div class="sim-range-labels">
-            <span>R$ 50 mil</span>
-            <span>R$ 600 mil</span>
+            <span>R$ 80 mil</span>
+            <span>R$ 1 milhão</span>
           </div>
         </div>
 
@@ -192,6 +202,7 @@
             <div class="sim-result-label">Parcela integral</div>
             <div class="sim-result-sub">Valor cheio</div>
             <div class="sim-result-value" id="sim-parcela-int">R$ 1.045,80<span>/mês</span></div>
+            <div class="sim-result-grupo" id="sim-grupo"></div>
           </div>
         </div>
 
