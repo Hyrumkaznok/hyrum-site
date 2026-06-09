@@ -1106,6 +1106,24 @@ p { color: var(--ink-muted); line-height: 1.75; }
 }
 .footer .nav-logo { color: #fff; }
 .footer p { color: var(--ink-faint); font-size: 13px; }
+.footer-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+.footer-social {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-muted);
+  transition: color 0.15s;
+}
+.footer-social:hover { color: var(--accent); }
+.footer-sep { color: var(--ink-faint); font-size: 13px; }
 .footer-reg { font-size: 11px !important; margin-top: 4px; }
 .footer-reg strong { color: var(--ink-muted); font-weight: 500; }
 
