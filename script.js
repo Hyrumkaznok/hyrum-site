@@ -281,19 +281,72 @@ document.querySelectorAll('.faq-q').forEach(btn => {
   });
 });
 
-// ── SCROLL REVEAL ──
+// ── SCROLL REVEAL (3D stagger) ──
+const revealEls = document.querySelectorAll('.step-card, .tipo-card, .sobre-text, .sobre-visual, .dep-card, .ext-card, .faq-item, .poder-wrap, .comp-table-wrap, .ext-cta');
+revealEls.forEach((el, i) => {
+  el.classList.add('reveal');
+  el.style.transitionDelay = `${(i % 4) * 70}ms`;
+});
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
+      entry.target.classList.add('in-view');
+      revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1 });
+}, { threshold: 0.12 });
+revealEls.forEach(el => revealObserver.observe(el));
 
-document.querySelectorAll('.step-card, .tipo-card, .sobre-text, .sobre-visual, .dep-card, .ext-card, .faq-item').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(24px)';
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  revealObserver.observe(el);
-});
+// ── TILT 3D (cards) ──
+const supportsHoverTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+function initTilt(selector, max) {
+  if (!supportsHoverTilt) return;
+  document.querySelectorAll(selector).forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+      const rotateX = (0.5 - y) * max;
+      const rotateY = (x - 0.5) * max;
+      card.style.transform = `perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+}
+initTilt('.step-card, .tipo-card, .ext-card, .dep-card', 7);
+
+// ── TILT 3D + GLARE (foto) ──
+function initPhotoTilt() {
+  const wrap = document.querySelector('.sobre-photo-wrap');
+  const photo = document.querySelector('.sobre-photo');
+  const glare = document.querySelector('.sobre-glare');
+  if (!wrap || !photo || !supportsHoverTilt) return;
+  wrap.addEventListener('mousemove', (e) => {
+    const rect = wrap.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const rotateX = (0.5 - y) * 16;
+    const rotateY = (x - 0.5) * 16;
+    photo.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03,1.03,1.03)`;
+    if (glare) {
+      glare.style.setProperty('--gx', (x * 100) + '%');
+      glare.style.setProperty('--gy', (y * 100) + '%');
+    }
+  });
+  wrap.addEventListener('mouseleave', () => { photo.style.transform = ''; });
+}
+initPhotoTilt();
+
+// ── GLOW MAGNÉTICO (botões) ──
+function initMagneticGlow(selector) {
+  if (!supportsHoverTilt) return;
+  document.querySelectorAll(selector).forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      btn.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100) + '%');
+      btn.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100) + '%');
+    });
+  });
+}
+initMagneticGlow('.btn-primary');
