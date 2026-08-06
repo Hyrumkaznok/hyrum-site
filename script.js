@@ -85,7 +85,7 @@ function handleSubmit(e) {
   document.getElementById('form').style.display = 'none';
   document.getElementById('form-success').style.display = 'block';
   setTimeout(() => {
-    window.open(`https://wa.me/5541999457725?text=${encodeURIComponent(texto)}`, '_blank');
+    window.open(`https://wa.me/5541999867844?text=${encodeURIComponent(texto)}`, '_blank');
   }, 400);
 }
 
@@ -224,7 +224,7 @@ function updateSimulator() {
   if (whatsappBtn) {
     const tipoTexto = simType === 'imovel' ? 'imóvel' : 'automóvel';
     const texto = `Olá Mateus! Simulei um consórcio de *${tipoTexto}* no valor de *R$ ${value.toLocaleString('pt-BR')}*, com parcela reduzida de aproximadamente *R$ ${formatBRL(result.reduzida)}/mês*.\nQuero saber mais!`;
-    whatsappBtn.href = `https://wa.me/5541999457725?text=${encodeURIComponent(texto)}`;
+    whatsappBtn.href = `https://wa.me/5541999867844?text=${encodeURIComponent(texto)}`;
   }
 }
 
