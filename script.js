@@ -219,6 +219,13 @@ function updateSimulator() {
 
   const pct = ((value - 80000) / (1000000 - 80000)) * 100;
   slider.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--surface-2) ${pct}%)`;
+
+  const whatsappBtn = document.getElementById('sim-whatsapp-btn');
+  if (whatsappBtn) {
+    const tipoTexto = simType === 'imovel' ? 'imóvel' : 'automóvel';
+    const texto = `Olá Mateus! Simulei um consórcio de *${tipoTexto}* no valor de *R$ ${value.toLocaleString('pt-BR')}*, com parcela reduzida de aproximadamente *R$ ${formatBRL(result.reduzida)}/mês*.\nQuero saber mais!`;
+    whatsappBtn.href = `https://wa.me/5541999457725?text=${encodeURIComponent(texto)}`;
+  }
 }
 
 document.querySelectorAll('.sim-tab').forEach(tab => {
